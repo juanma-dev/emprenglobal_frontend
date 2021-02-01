@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDom from "react-dom";
-import Emprenglobal from "./emprenglobal.js";
+import App from "./App.js";
 
-ReactDom.render(<Emprenglobal />, document.getElementById("root"));
+ReactDom.render(<App />, document.getElementById("root"));
