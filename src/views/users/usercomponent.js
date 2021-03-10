@@ -4,7 +4,6 @@ import Menu from "./menu";
 const UserComponent = (props) => {
   return (
     <span>
-      <span>{props.user.username}</span>
       <img id="user_img" src={props.user.photoPath} alt="User Pic"></img>
     </span>
   );

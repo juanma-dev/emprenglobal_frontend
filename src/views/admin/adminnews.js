@@ -15,25 +15,29 @@ const userLogin = {
   password: "",
 };
 
-const AdminGallery = () => {
-  /*Gallery*/
-  const [galleryHeader, setGalleryHeader] = useState("");
-  const [galleryImage, setGalleryImage] = useState({ src: "", file: "" });
+const AdminNews = () => {
+  /*Event*/
+  const [newsHeader, setNewsHeader] = useState("");
+  const [newsDate, setNewsDate] = useState("");
+  const [newsText, setNewsText] = useState("");
+  const [newsImage, setNewsImage] = useState({ src: "", file: "" });
   const [logError, setLogError] = useState("");
   const [logSuccess, setLogSuccess] = useState("");
   /* */
 
-  const submitGallery = (e) => {
+  const submitEvent = (e) => {
     e.preventDefault();
     setLogError("");
     setLogSuccess("");
     const token = store.getState().login.token;
     let formData = new FormData();
 
-    formData.append("header", galleryHeader);
-    formData.append("file", galleryImage.file);
+    formData.append("header", newsHeader);
+    formData.append("date", newsDate);
+    formData.append("text", newsText);
+    formData.append("file", newsImage.file);
 
-    fetch(SERVER_URL + "gallery", {
+    fetch(SERVER_URL + "news", {
       method: "POST",
       body: formData,
       headers: {
@@ -62,31 +66,54 @@ const AdminGallery = () => {
   return (
     <div>
       <div class="container">
-        <h2>Agregar foto en Galería</h2>
+        <h2>Agregar Noticia</h2>
         <span class="log_error">{logError}</span>
         <span class="log_success">{logSuccess}</span>
         <br />
-        <form onSubmit={submitGallery}>
+        <form onSubmit={submitEvent}>
           <div class="row">
             <div class="col-3">
               <textarea
-                name="message"
-                alue={galleryHeader}
-                placeholder="Introduzca tíulo de foto"
-                onChange={(e) => setGalleryHeader(e.target.value)}
+                name="header"
+                value={newsHeader}
+                placeholder="Introduzca tíulo"
+                onChange={(e) => setNewsHeader(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <input
+                type="text"
+                name="date"
+                value={newsDate}
+                placeholder="Introduzca fecha"
+                onChange={(e) => setNewsDate(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <textarea
+                name="text"
+                value={newsText}
+                placeholder="Introduzca contenido"
+                onChange={(e) => setNewsText(e.target.value)}
                 required
               />
             </div>
           </div>
           <div>
             <div>
-              <img class="img_ge" src={galleryImage.src} />
+              <img src={newsImage.src} />
             </div>
             <input
               type="file"
-              neme="galleryImage"
+              neme="newsImage"
               onChange={function (event) {
-                onImageChange(event, setGalleryImage);
+                onImageChange(event, setNewsImage);
               }}
             />
           </div>
@@ -99,4 +126,4 @@ const AdminGallery = () => {
   );
 };
 
-export { AdminGallery as default };
+export { AdminNews as default };

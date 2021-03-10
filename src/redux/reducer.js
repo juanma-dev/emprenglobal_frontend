@@ -8,6 +8,7 @@ import {
   UPDATE_POLLS,
   UPDATE_COMMENTS,
   UPDATE_OPTIONS,
+  UPDATE_VOTED,
 } from "./actions";
 
 const loginReducer = (state = {}, action) => {
@@ -50,6 +51,11 @@ const optionsReducer = (state = [], action) => {
   if (action.type === UPDATE_OPTIONS) return [...state, ...action.payload];
   return state;
 };
+const votedReducer = (state = {}, action) => {
+  //here we gotta set a default state
+  if (action.type === UPDATE_VOTED) return { ...state, ...action.payload };
+  return state;
+};
 
 const reducer = combineReducers({
   login: loginReducer,
@@ -60,6 +66,7 @@ const reducer = combineReducers({
   polls: pollsReducer,
   comments: commentsReducer,
   options: optionsReducer,
+  voted: votedReducer,
 });
 
 export { reducer as default };

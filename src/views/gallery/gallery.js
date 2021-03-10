@@ -14,7 +14,7 @@ const Gallery = (props) => {
     <div>
       <span>Galería</span>
       <ul>
-        {store.getState().galleries.map((g, index) => (
+        {props.galleries.map((g, index) => (
           <li key={index}>
             <GalleryComponent gallery={g} />
           </li>

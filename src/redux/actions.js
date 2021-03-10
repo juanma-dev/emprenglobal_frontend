@@ -7,6 +7,7 @@ const UPDATE_GALLERIES = "UPDATE_GALLERIES";
 const UPDATE_POLLS = "UPDATE_POLLS";
 const UPDATE_COMMENTS = "UPDATE_COMMENTS";
 const UPDATE_OPTIONS = "UPDATE_OPTIONS";
+const UPDATE_VOTED = "UPDATE_VOTED";
 
 // ACTION creators(updateUser, addContact),
 // actions has a type(target to update) and has a payload(data to update)
@@ -42,6 +43,10 @@ const updateOptions = (update) => ({
   type: UPDATE_OPTIONS,
   payload: update,
 });
+const updateVoted = (update) => ({
+  type: UPDATE_VOTED,
+  payload: update,
+});
 
 export {
   updateLogin,
@@ -52,6 +57,7 @@ export {
   updatePolls,
   updateComments,
   updateOptions,
+  updateVoted,
   UPDATE_LOGIN,
   UPDATE_USER,
   UPDATE_NEWS,
@@ -60,4 +66,5 @@ export {
   UPDATE_POLLS,
   UPDATE_COMMENTS,
   UPDATE_OPTIONS,
+  UPDATE_VOTED,
 };

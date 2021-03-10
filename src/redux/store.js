@@ -6,7 +6,7 @@ const DEFAULT_USER = {
   username: "",
   password: "",
   email: "",
-  photoPath: "",
+  photoPath: "http://192.168.43.29:8888/emprenglobal/users/0/anonymous.png",
   authorities: [],
 };
 
@@ -18,6 +18,7 @@ let DEFAULT_STATE = {
   comments: [],
   login: DEFAULT_LOGIN,
   user: DEFAULT_USER,
+  voted: {},
 };
 
 const store = createStore(reducer, DEFAULT_STATE); //we're using the redux library here

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import store from "../../redux/store";
 import { updateLogin, updateUser } from "../../redux/actions";
 import { BrowserRouter, Link, Route, Switch, Router } from "react-router-dom";
-import { SERVER_URL, SERVER_LOGIN } from "../../configuration.js";
+import {
+  SERVER_URL,
+  SERVER_LOGIN,
+  WRONG_USER_PASS,
+  LOGIN_SUCCESS,
+} from "../../configuration.js";
 import { fetchUserByName } from "../../fetches.js";
 
 const userLogin = {
@@ -12,10 +17,13 @@ const userLogin = {
 
 const Login = (props) => {
   const [user, setUser] = useState(userLogin);
-  const [loginStatus, setLoginStatus] = useState("");
+  const [logError, setLogError] = useState("");
+  const [logSuccess, setLogSuccess] = useState("");
 
   const submit = (e) => {
     e.preventDefault();
+    setLogError("");
+    setLogSuccess("");
     fetch(SERVER_LOGIN, {
       method: "POST",
       body: JSON.stringify(user),
@@ -29,25 +37,28 @@ const Login = (props) => {
           const token = response.headers.get("Authorization");
           store.dispatch(updateLogin({ token: token }));
           fetchUserByName(user.username);
-          setLoginStatus("");
+          setLogSuccess(LOGIN_SUCCESS);
         } else {
-          setLoginStatus("Usario o contraseña incorrecta");
+          setLogError(WRONG_USER_PASS);
         }
       })
       .catch((e) => {
+        setLogError(WRONG_USER_PASS);
         console.log(e);
       });
   };
 
   return (
     <div class="container">
-      <p>{loginStatus}</p>
+      <span class="log_error">{logError}</span>
+      <span class="log_success">{logSuccess}</span>
+      <br />
       <form onSubmit={submit}>
         <div class="row">
-          <div class="col-25">
-            <label for="fname">Correo electrónico</label>
+          <div class="col-3">
+            <label for="fname">User:</label>
           </div>
-          <div class="col-75">
+          <div class="col-9">
             <input
               type="text"
               name="username"
@@ -59,10 +70,10 @@ const Login = (props) => {
           </div>
         </div>
         <div class="row">
-          <div class="col-25">
-            <label for="lname">Contraseña:</label>
+          <div class="col-3">
+            <label for="lname">Password:</label>
           </div>
-          <div class="col-75">
+          <div class="col-9">
             <input
               type="password"
               name="password"

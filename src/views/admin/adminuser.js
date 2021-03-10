@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import store from "../../redux/store";
 import { updateLogin, updateUser } from "../../redux/actions";
 import { BrowserRouter, Link, Route, Switch, Router } from "react-router-dom";
-import { SERVER_URL, SERVER_LOGIN } from "../../configuration.js";
+import {
+  SERVER_URL,
+  SERVER_LOGIN,
+  WRONG_CHECK_PASS,
+  UPDATE_PASS_SUCCESS,
+} from "../../configuration.js";
 import { fetchUserByName } from "../../fetches.js";
 import AdminGallery from "./admingallery";
 
 const AdminUser = () => {
   const [user, setUser] = useState(store.getState().user);
-  const [loginStatus, setLoginStatus] = useState("");
+  const [logError, setLogError] = useState("");
+  const [logSuccess, setLogSuccess] = useState("");
   const [image, setImage] = useState({ src: "", file: "" });
   const [checkPass, setCheckPass] = useState("");
 
@@ -22,9 +28,9 @@ const AdminUser = () => {
     let data;
 
     if (isPass) {
-      setLoginStatus(
-        checkPass === user.password ? "" : "Las contraseñas no coinciden"
-      );
+      setLogError("");
+      setLogSuccess("");
+      setLogError(checkPass === user.password ? "" : WRONG_CHECK_PASS);
       data = JSON.stringify({ id: user.id, password: user.password });
       headers["Content-type"] = "application/json";
     } else {
@@ -40,7 +46,7 @@ const AdminUser = () => {
     })
       .then((response) => {
         if (response.ok) {
-          setLoginStatus("Contraseña actualizada");
+          setLogSuccess(UPDATE_PASS_SUCCESS);
         }
       })
       .catch((e) => {
@@ -59,17 +65,19 @@ const AdminUser = () => {
     <div>
       <div class="container">
         <h2>Cambiar contraseña</h2>
-        <p>{loginStatus}</p>
+        <span class="log_error">{logError}</span>
+        <span class="log_success">{logSuccess}</span>
+        <br />
         <form
           onSubmit={function (e) {
             submitUser(e, "true");
           }}
         >
           <div class="row">
-            <div class="col-25">
+            <div class="col-3">
               <label for="fname">Correo electrónico</label>
             </div>
-            <div class="col-75">
+            <div class="col-9">
               <input
                 type="text"
                 name="username"
@@ -81,10 +89,10 @@ const AdminUser = () => {
             </div>
           </div>
           <div class="row">
-            <div class="col-25">
+            <div class="col-3">
               <label for="lname">Nueva contraseña:</label>
             </div>
-            <div class="col-75">
+            <div class="col-9">
               <input
                 type="password"
                 name="password"
@@ -96,10 +104,10 @@ const AdminUser = () => {
             </div>
           </div>
           <div class="row">
-            <div class="col-25">
+            <div class="col-3">
               <label for="lname">Comprobar nueva contraseña:</label>
             </div>
-            <div class="col-75">
+            <div class="col-9">
               <input
                 type="password"
                 name="password"
@@ -121,7 +129,7 @@ const AdminUser = () => {
         <h2>Cambiar foto de perfil</h2>
         <div>
           <form onSubmit={submitUser}>
-            <img src={image.src} />
+            <img class="img_ge" src={image.src} />
             <h4>Actualice su imagen</h4>
             <input
               type="file"

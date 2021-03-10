@@ -8,6 +8,7 @@ import {
   updatePolls,
   updateComments,
   updateOptions,
+  updateVoted,
 } from "./redux/actions";
 import { SERVER_URL, SERVER_LOGIN } from "./configuration.js";
 import UserComponent from "./views/users/usercomponent";
@@ -23,6 +24,9 @@ function fetchUserByName(username) {
     .then((response) => response.json())
     .then((json) => {
       store.dispatch(updateUser(json));
+      console.log(
+        store.getState().user.authorities.some((a) => a.aname === "ROLE_ADMIN")
+      );
     })
     .catch((e) => {
       console.log(e);
@@ -50,7 +54,6 @@ function fetchNews() {
   fetch(SERVER_URL + "news")
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       store.dispatch(updateNews(json));
     })
     .catch((e) => {
@@ -62,7 +65,6 @@ function fetchEvents() {
   fetch(SERVER_URL + "events")
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       store.dispatch(updateEvents(json));
     })
     .catch((e) => {
@@ -74,7 +76,6 @@ function fetchGalleries() {
   fetch(SERVER_URL + "galleries")
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       store.dispatch(updateGalleries(json));
     })
     .catch((e) => {
@@ -86,7 +87,6 @@ function fetchPolls() {
   fetch(SERVER_URL + "polls")
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       store.dispatch(updatePolls(json));
     })
     .catch((e) => {
@@ -109,7 +109,6 @@ function fetchOptions() {
   fetch(SERVER_URL + "options")
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       store.dispatch(updateOptions(json));
     })
     .catch((e) => {

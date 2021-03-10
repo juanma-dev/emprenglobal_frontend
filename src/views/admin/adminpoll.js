@@ -15,28 +15,29 @@ const userLogin = {
   password: "",
 };
 
-const AdminGallery = () => {
-  /*Gallery*/
-  const [galleryHeader, setGalleryHeader] = useState("");
-  const [galleryImage, setGalleryImage] = useState({ src: "", file: "" });
+const AdminPoll = () => {
+  /*Event*/
+  const [pollTitle, setPollTitle] = useState("");
+  const [pollDate, setPollDate] = useState("");
+  const [pollOptions, setPollOptions] = useState([]);
   const [logError, setLogError] = useState("");
   const [logSuccess, setLogSuccess] = useState("");
   /* */
 
-  const submitGallery = (e) => {
+  const submitEvent = (e) => {
     e.preventDefault();
     setLogError("");
     setLogSuccess("");
+    let o = pollOptions.split(",");
     const token = store.getState().login.token;
-    let formData = new FormData();
+    let data = { title: pollTitle, date: pollDate, options: o };
+    console.log(data);
 
-    formData.append("header", galleryHeader);
-    formData.append("file", galleryImage.file);
-
-    fetch(SERVER_URL + "gallery", {
+    fetch(SERVER_URL + "poll", {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(data),
       headers: {
+        "Content-Type": "application/json",
         Authorization: token,
       },
     })
@@ -52,43 +53,48 @@ const AdminGallery = () => {
       });
   };
 
-  const onImageChange = (event, setsImageHooks) => {
-    if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
-      setsImageHooks({ src: URL.createObjectURL(img), file: img });
-    }
-  };
-
   return (
     <div>
       <div class="container">
-        <h2>Agregar foto en Galería</h2>
+        <h2>Agregar Encuesta</h2>
         <span class="log_error">{logError}</span>
         <span class="log_success">{logSuccess}</span>
         <br />
-        <form onSubmit={submitGallery}>
+        <form onSubmit={submitEvent}>
           <div class="row">
             <div class="col-3">
               <textarea
-                name="message"
-                alue={galleryHeader}
-                placeholder="Introduzca tíulo de foto"
-                onChange={(e) => setGalleryHeader(e.target.value)}
+                name="header"
+                value={pollTitle}
+                placeholder="Introduzca tíulo"
+                onChange={(e) => setPollTitle(e.target.value)}
                 required
               />
             </div>
           </div>
-          <div>
-            <div>
-              <img class="img_ge" src={galleryImage.src} />
+          <div class="row">
+            <div class="col-3">
+              <input
+                type="text"
+                name="date"
+                value={pollDate}
+                placeholder="Introduzca fecha"
+                onChange={(e) => setPollDate(e.target.value)}
+                required
+              />
             </div>
-            <input
-              type="file"
-              neme="galleryImage"
-              onChange={function (event) {
-                onImageChange(event, setGalleryImage);
-              }}
-            />
+          </div>
+          <div class="row">
+            <p>Introduzca opciones separadas por una coma(,)</p>
+            <div class="col-3">
+              <textarea
+                name="text"
+                value={pollOptions}
+                placeholder="Introduzca opciones"
+                onChange={(e) => setPollOptions(e.target.value)}
+                required
+              />
+            </div>
           </div>
           <div class="row">
             <input type="submit" value="Submit" />
@@ -99,4 +105,4 @@ const AdminGallery = () => {
   );
 };
 
-export { AdminGallery as default };
+export { AdminPoll as default };

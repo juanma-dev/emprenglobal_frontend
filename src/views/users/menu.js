@@ -3,15 +3,20 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { SERVER_LOGOUT } from "../../configuration";
 import store, { DEFAULT_LOGIN, DEFAULT_USER } from "../../redux/store";
 import { updateUser, updateLogin } from "../../redux/actions";
+import AdminUser from "../admin/adminuser";
 
 const Menu = (props) => {
   return (
     <ul id="menu_ul" style={props.display}>
-      <li>Nname</li>
-      <li>Configuration</li>
+      <li>{props.user?.username}</li>
       <li>
-        <Link to="/admin">Administración</Link>
+        <Link to="/conf">Configuración</Link>
       </li>
+      {props.user?.authorities.some((a) => a.aname === "ROLE_ADMIN") && (
+        <li>
+          <Link to="/admin">Administración</Link>
+        </li>
+      )}
       <li>
         <a
           href="#"

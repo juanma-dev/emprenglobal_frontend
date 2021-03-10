@@ -23,7 +23,7 @@ const CreateUser = (props) => {
   };
 
   return (
-    <div>
+    <div class="container">
       <form onSubmit={submit}>
         <br />
         <label for="username">Usuario:</label>
