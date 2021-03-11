@@ -7,28 +7,22 @@ import AdminUser from "../admin/adminuser";
 
 const Menu = (props) => {
   return (
-    <ul id="menu_ul" style={props.display}>
-      <li>{props.user?.username}</li>
-      <li>
-        <Link to="/conf">Configuración</Link>
-      </li>
+    <div id="menu" class="center" style={props.display}>
+      <div>{props.user?.username}</div>
+      <Link to="/conf">Configuración</Link>
       {props.user?.authorities.some((a) => a.aname === "ROLE_ADMIN") && (
-        <li>
-          <Link to="/admin">Administración</Link>
-        </li>
+        <Link to="/admin">Administración</Link>
       )}
-      <li>
-        <a
-          href="#"
-          onClick={() => {
-            store.dispatch(updateUser(DEFAULT_USER));
-            store.dispatch(updateLogin(DEFAULT_LOGIN));
-          }}
-        >
-          Salir
-        </a>
-      </li>
-    </ul>
+      <a
+        href="#"
+        onClick={() => {
+          store.dispatch(updateUser(DEFAULT_USER));
+          store.dispatch(updateLogin(DEFAULT_LOGIN));
+        }}
+      >
+        Salir
+      </a>
+    </div>
   );
 };
 
